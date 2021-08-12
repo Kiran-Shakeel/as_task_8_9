@@ -22,15 +22,21 @@ class _HomePageState extends State<HomePage> {
         title: Text("CRUD Operations"),
         centerTitle: true,
       ),
-
-      body: ,
-
-     
-
-
-
-
-
+      body: StreamBuilder(
+          stream: ref.snapshots(),
+          builder:
+              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            return ListView.separated(
+              itemCount: snapshot.data!.docs.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(snapshot.data!.docs[index]['name']),
+                  subtitle: Text(snapshot.data!.docs[index]['subtitile']),
+                );
+              },
+              separatorBuilder: (BuildContext context, int index) => Divider(),
+            );
+          }),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           _fetch();
